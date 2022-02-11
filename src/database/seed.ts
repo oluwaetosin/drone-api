@@ -10,9 +10,10 @@ const tables: string[] = [
 
     `CREATE TABLE IF NOT EXISTS medications(
         id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL UNIQUE,
-        weight REAL,
-        code TEXT,
+        name TEXT NOT NULL,
+        weight REAL NOT NULL,
+        code,
+        identifier TEXT NOT NULL UNIQUE,
         image TEXT
     )`,
 
