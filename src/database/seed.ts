@@ -30,24 +30,25 @@ const tables: string[] = [
     `CREATE TABLE IF NOT EXISTS trips(
         id INTEGER PRIMARY KEY,
         drone_id INTEGER NOT NULL,
-        medication_id INTEGER NOT NULL,
         start_date INTEGER NOT NULL,
-        end_date INTEGER
+        end_date INTEGER,
+        active INTEGER
     )`,
 
-    `CREATE TABLE IF NOT EXISTS dron_audits(
+    `CREATE TABLE IF NOT EXISTS trip_medications(
+        id INTEGER PRIMARY KEY,
+        trip_id INTEGER NOT NULL,
+        medication_id INTEGER NOT NULL
+    )`,
+
+    `CREATE TABLE IF NOT EXISTS drone_audits(
         id INTEGER PRIMARY KEY,
         drone_id INTEGER NOT NULL,
         battery_level INTEGER NOT NULL,
         date INTEGER NOT NULL
     )`,
 
-    `CREATE TABLE IF NOT EXISTS trip(
-        id INTEGER PRIMARY KEY,
-        drone_id INTEGER NOT NULL,
-        medication_id INTEGER NOT NULL,
-        active INTEGER
-    )`
+    
 ];
 
 export const setup_data: string[] = [

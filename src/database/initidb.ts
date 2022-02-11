@@ -14,7 +14,7 @@ function makeTables(): void{
             } else{
                 console.log(error.message);
             }
-            
+
             if(tracker === 0){
                 insertData();
             }
@@ -24,7 +24,15 @@ function makeTables(): void{
 }
 
 function insertData(): void{
+   db.all("SELECT * FROM states", function(err, rows){
+       if(err){
+           console.error(err);
+       }
+     
+   });
+   
     setup_data.forEach(data => {
+      
         db.run(data, function( error){
            
             if(error){

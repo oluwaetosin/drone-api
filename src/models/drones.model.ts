@@ -1,13 +1,16 @@
 import { error } from "console";
+import { JSONSchema4Type, JSONSchema4TypeName } from "json-schema";
 import db from "../database/connection";
 
 class Drone {
     public id: number;
     public serial_number: string;
     public model_id: number;
+    public model: number;
     public weight_limit: number;
     public battery_capacity:number;
     public state_id: number;
+    public state: number;
     constructor(data: any){
         if(data){
             if(data.id !== undefined){
@@ -25,9 +28,18 @@ class Drone {
             if(data.weight_limit !== undefined){
                 this.weight_limit = data.weight_limit;
             }
+            if(data.weight !== undefined){
+                this.weight_limit = data.weight;
+            }
 
             if(data.battery_capacity !== undefined){
                 this.battery_capacity = data.battery_capacity;
+            }
+            if(data.model !== undefined){
+                this.model = data.model;
+            }
+            if(data.state !== undefined){
+                this.state = data.state;
             }
 
             if(data.state_id !== undefined){
@@ -37,23 +49,75 @@ class Drone {
     }
 }
 
+const DroneSchema = {
+    type: 'object',
+    properties: {
+        
+        serial_number: {
+            type: 'string',
+            required: true,
+            maxLength: 100
+        },
+        model: {
+            type: 'string',
+            required: true,
+            enum: ['Lightweight', 'Middleweight', 'Cruiserweight', 'Heavyweight']
+            
+        },
+        weight_limit: {
+            type: 'number',
+            required: true,
+            maximum: 500
+        },
+        battery_capacity: {
+            type: 'number',
+            required: true,
+            maximum: 100
+        },
+        state: {
+            type: 'string',
+            required: true,
+            enum: ['IDLE', 'LOADING', 'LOADED', 'DELIVERING', 'DELIVERED', 'RETURNING']
+        }
+        }
+       
+    }
 
-function getAll(): Promise<string | Drone[]> {
+
+
+function getAll(): Promise< Drone[]> {
     return new Promise((resolve, reject)=>{
 
         db.all('SELECT * FROM drones', function(err, rows: Drone[]){
             if(err){
-               return reject(err.message);
+                reject(err);
             }else {
                 
-               return resolve(rows);
+                resolve(rows);
             }
         });
 
     })
 }
 
-function createDrone(drone: Drone): Promise<string | number> {
+function droneExist(serialNumber: string): Promise<Drone>{
+    return new Promise((resolve, reject)=>{
+        db.get("SELECT * FROM drones where serial_number = $serial_number",{
+            $serial_number: serialNumber
+        }, (err, row)=>{
+            if(err){
+                reject(err);
+            }else if(row && row.id !== undefined){
+                resolve(row);
+            }else{
+                resolve(null);
+            }
+        })
+    });
+  
+}
+
+function createDrone(drone: Drone): Promise<number> {
     return new Promise((resolve, reject)=>{
 
         db.run(
@@ -71,10 +135,10 @@ function createDrone(drone: Drone): Promise<string | number> {
             )`, 
             function(err){
             if(err){
-               return reject(err.message);
+                reject(err);
             }else {
                 
-               return resolve(this.lastID);
+                resolve(this.lastID);
             }
         });
         
@@ -90,6 +154,8 @@ export {
     getAll,
     createDrone,
     getAvailableDrones,
-    Drone
+    droneExist,
+    Drone,
+    DroneSchema
 }
 

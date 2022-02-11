@@ -105,6 +105,7 @@ function medicationExist(medication: Medication): Promise<string| number> {
 export {
     getAll,
     medicationExist,
-    createMedication
+    createMedication,
+    Medication
 }
 
