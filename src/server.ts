@@ -1,5 +1,6 @@
 import http from 'http';
 import app from './app';
+
 import makeTables from './database/initidb';
 
 const port = process.env.PORT || 3000;
@@ -10,4 +11,4 @@ server.listen(port, ()=>{
     console.log("Server started");
 
     makeTables();
-})
+});

@@ -1,13 +1,13 @@
 import http from 'http';
-import bodyParser from 'body-parser';
 import express, { Application } from 'express'
+import dronesRouter from './routes/drones/drones.router';
 
-import makeTables from './database/initidb';
+
 
 const app: Application = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(dronesRouter);
 
 export default app;
 
