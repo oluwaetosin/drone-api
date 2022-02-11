@@ -21,17 +21,25 @@ function getAll(): Promise<string | IModel[]>{
 }
 
 
-function getIdByName(name: string): Promise<string | number>{
+function getIdByName(name: string): Promise<number>{
     return new Promise((resolve, reject)=>{
 
         db.get("SELECT * FROM models WHERE name = $name", {
             $name: name
         }, function(err, row: IModel){
+
             if(err){
-                return reject(err.message);
-            }else {
-                resolve(row.id);
-            }
+
+                reject(err.message);
+           }
+           else if(row.id === undefined){
+
+               resolve(0);
+           }
+           else {
+
+               resolve(row.id);
+           }
         })
 
     });

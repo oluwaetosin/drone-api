@@ -21,15 +21,20 @@ function getAll(): Promise<string | IState[]>{
 }
 
 
-function getIdByName(name: string): Promise<string | number>{
+function getIdByName(name: string): Promise<number>{
     return new Promise((resolve, reject)=>{
-
+      
         db.get("SELECT * FROM states WHERE name = $name", {
             $name: name
         }, function(err, row: IState){
+        
             if(err){
-                return reject(err.message);
-            }else {
+                 reject(err);
+            }
+            else if(row == null || row.id === undefined){
+                resolve(0);
+            }
+            else {
                 resolve(row.id);
             }
         })
