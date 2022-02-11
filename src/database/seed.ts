@@ -27,17 +27,9 @@ const tables: string[] = [
         name TEXT NOT NULL UNIQUE
     )`,
 
-    `CREATE TABLE IF NOT EXISTS trips(
+    `CREATE TABLE IF NOT EXISTS drone_medications(
         id INTEGER PRIMARY KEY,
         drone_id INTEGER NOT NULL,
-        start_date INTEGER NOT NULL,
-        end_date INTEGER,
-        active INTEGER
-    )`,
-
-    `CREATE TABLE IF NOT EXISTS trip_medications(
-        id INTEGER PRIMARY KEY,
-        trip_id INTEGER NOT NULL,
         medication_id INTEGER NOT NULL
     )`,
 
