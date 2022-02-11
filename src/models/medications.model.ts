@@ -39,6 +39,33 @@ class Medication {
 }
 
 
+const MedicationSchema = {
+    type: 'object',
+    properties: {
+        
+        name: {
+            type: 'string',
+            required: true,
+            pattern: '[a-bA-Z0-9 -_]'
+        },
+        weight: {
+            type: 'number',
+            required: true
+        },
+        code: {
+            type: 'string',
+            required: true,
+            pattern: '[A-Z0-9_]'
+        },
+        image: {
+            type: 'string',
+            required: true
+        }
+        }
+       
+    }
+
+
 function getAll(): Promise<string | Medication[]> {
     return new Promise((resolve, reject)=>{
 
@@ -106,6 +133,7 @@ export {
     getAll,
     medicationExist,
     createMedication,
-    Medication
+    Medication,
+    MedicationSchema
 }
 
