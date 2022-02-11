@@ -1,3 +1,4 @@
+import http from 'http';
 import bodyParser from 'body-parser';
 import express, { Application } from 'express'
 
@@ -5,14 +6,8 @@ import makeTables from './database/initidb';
 
 const app: Application = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-const port = 3000;
-
-app.use(bodyParser)
-
-app.listen(port, ()=>{
-
-    makeTables();
-});
-
+export default app;
 
