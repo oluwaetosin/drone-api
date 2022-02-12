@@ -203,9 +203,9 @@ function getDroneMedications(serialNumber: string): Promise<Medication[]>{
 
     return new Promise((resolve, reject)=>{
 
-        db.all(`SELECT medications.name, weight, code from drone_medications
+        db.all(`SELECT medications.name, weight, code, image, identifier from drone_medications
         inner join medications on medications.id = drone_medications.medication_id
-        inner join drones on drones.id = drone_medications_id 
+        inner join drones on drones.id = drone_medications.drone_id 
         where drones.serial_number = $serialNumber`,{
             $serialNumber: serialNumber
         }, function(err, rows){
