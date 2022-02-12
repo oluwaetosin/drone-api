@@ -1,5 +1,3 @@
-import { error } from "console";
-import { JSONSchema4Type, JSONSchema4TypeName } from "json-schema";
 import db from "../database/connection";
 import { Medication } from "./medications.model";
 import { getIdByName as getStateId } from "./states.model";

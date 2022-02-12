@@ -1,4 +1,3 @@
-import { error } from "console";
 import db from "../database/connection";
 import { Drone } from "./drones.model";
 
