@@ -30,9 +30,10 @@ const tables: string[] = [
     `CREATE TABLE IF NOT EXISTS drone_medications(
         id INTEGER PRIMARY KEY,
         drone_id INTEGER NOT NULL,
-        medication_id INTEGER NOT NULL
+        medication_id INTEGER NOT NULL,
+        active INTEGER NOT NULL
     )`,
-
+    
     `CREATE TABLE IF NOT EXISTS drone_audits(
         id INTEGER PRIMARY KEY,
         drone_id INTEGER NOT NULL,

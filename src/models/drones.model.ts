@@ -53,7 +53,7 @@ const DroneSchema = {
     type: 'object',
     properties: {
         
-        serial_number: {
+        drone_serial_number: {
             type: 'string',
             required: true,
             maxLength: 100
@@ -117,6 +117,25 @@ function droneExist(serialNumber: string): Promise<Drone>{
   
 }
 
+function droneLimitCheck(drone: Drone): Promise<{totalLoad: number}>{
+    return new Promise((resolve, reject)=>{
+        db.get(`SELECT  SUM(medications.weight) as totalLoad FROM drone_medications inner join medications on 
+        medications.id  = drone_medications.medication_id 
+         where drone_medications.drone_id = $droneID & drone_medications.active = 1`,{
+            $droneID: drone.id
+        }, (err, row: {totalLoad: number})=>{
+            if(err){
+                reject(err);
+            }else if(row){
+                resolve(row);
+            }else{
+                resolve(null);
+            }
+        })
+    });
+  
+}
+
 function createDrone(drone: Drone): Promise<number> {
     return new Promise((resolve, reject)=>{
 
@@ -155,6 +174,7 @@ export {
     createDrone,
     getAvailableDrones,
     droneExist,
+    droneLimitCheck,
     Drone,
     DroneSchema
 }

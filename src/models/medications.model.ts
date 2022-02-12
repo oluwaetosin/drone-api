@@ -81,27 +81,14 @@ function getAll(): Promise<string | Medication[]> {
     })
 }
 
-function createMedication(medication: Medication): Promise<string | number> {
+function createMedication(medication: Medication): Promise<number> {
     return new Promise((resolve, reject)=>{
 
         db.run(
-            `INSERT INTO medications
-            (   name, 
-                weight, 
-                code, 
-                identifier, 
-                image
-            ) 
-            VALUES(
-                ${medication.name},
-                ${medication.weight},
-                ${medication.code},
-                ${medication.identifier},
-                ${medication.image}
-            )`, 
+            `INSERT INTO medications (name,weight,code,identifier,image) VALUES('${medication.name}',${medication.weight},'${medication.code}','${medication.identifier}','${medication.image}')`, 
             function(err){
             if(err){
-               return reject(err.message);
+               return reject(err);
             }else {
                 
                return resolve(this.lastID);
@@ -111,16 +98,16 @@ function createMedication(medication: Medication): Promise<string | number> {
     })
 }
 
-function medicationExist(medication: Medication): Promise<string| number> {
+function medicationExist(medication: Medication): Promise<number> {
     
     return new Promise((resolve, reject)=>{
-        db.get("SELECT * FROM drones WHERE identifier = $identifier",{
-            identifier: medication.identifier
+        db.get("SELECT * FROM medications WHERE identifier = $identifier",{
+            $identifier: medication.identifier
         }, function(err, row: Medication){
             if(err){
-                return reject(err.message);
+                return reject(err);
             }else{
-                if(!row.id === undefined){
+                if(!row || row.id === undefined){
                     return resolve(0);
                 }
                 return resolve(row.id);
