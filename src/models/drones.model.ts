@@ -1,16 +1,18 @@
 import { error } from "console";
 import { JSONSchema4Type, JSONSchema4TypeName } from "json-schema";
 import db from "../database/connection";
+import { Medication } from "./medications.model";
+import { getIdByName as getStateId } from "./states.model";
 
 class Drone {
     public id: number;
     public serial_number: string;
     public model_id: number;
-    public model: number;
+    public model: string;
     public weight_limit: number;
     public battery_capacity:number;
     public state_id: number;
-    public state: number;
+    public state: string;
     constructor(data: any){
         if(data){
             if(data.id !== undefined){
@@ -156,7 +158,7 @@ function createDrone(drone: Drone): Promise<number> {
             if(err){
                 reject(err);
             }else {
-                
+             
                 resolve(this.lastID);
             }
         });
@@ -164,10 +166,62 @@ function createDrone(drone: Drone): Promise<number> {
     })
 }
 
-function getAvailableDrones() {
-    
-    db.get("SELECT * FROM drones WHERE state_id");
+function getAvailableDrones(): Promise<Drone[]> {
+
+    return new Promise((resolve, reject)=>{
+        db.all(`SELECT drones.id as id,  states.name as state, serial_number, models.name as model, weight_limit,
+        battery_capacity
+        FROM drones inner join states
+        on states.id = drones.state_id
+        inner join models on models.id = drones.model_id
+        where states.name in ('IDLE','LOADING')`, 
+        function(err, rows: Drone[]){
+            if(err){
+                reject(err)
+            }else{
+                resolve(rows);
+            }
+        });
+    })
+   
 }
+
+async function setDroneState(state: string, drone_id: number) {
+
+        const stateId = await getStateId(state);
+
+        db.run("UPDATE drones SET state_id = $stateId where id = $droneId",{
+            $stateId: stateId,
+            $droneId: drone_id
+        }, function(err){
+
+            console.log(err);
+        });
+}
+
+function getDroneMedications(serialNumber: string): Promise<Medication[]>{
+
+    return new Promise((resolve, reject)=>{
+
+        db.all(`SELECT medications.name, weight, code from drone_medications
+        inner join medications on medications.id = drone_medications.medication_id
+        inner join drones on drones.id = drone_medications_id 
+        where drones.serial_number = $serialNumber`,{
+            $serialNumber: serialNumber
+        }, function(err, rows){
+            if(err){
+                reject(err);
+            }else{
+                if(!rows){
+                    resolve([]);
+                } else{
+                    resolve(rows);
+                }
+            }
+        })
+    })
+}
+
 
 export {
     getAll,
@@ -175,6 +229,8 @@ export {
     getAvailableDrones,
     droneExist,
     droneLimitCheck,
+    setDroneState,
+    getDroneMedications,
     Drone,
     DroneSchema
 }

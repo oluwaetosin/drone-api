@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { Drone, droneExist, getAll as getAllDrones, createDrone as addDrone, droneLimitCheck } from "../../models/drones.model"
+import { Drone, droneExist, getAll as getAllDrones, createDrone as addDrone, droneLimitCheck, getAvailableDrones, setDroneState, getDroneMedications } from "../../models/drones.model"
 import { createDroneMedication, DroneMedication } from '../../models/drone_medications.model';
 import { createMedication, Medication, medicationExist } from '../../models/medications.model';
 import { getIdByName } from "../../models/models.model";
@@ -89,6 +89,9 @@ async function loadDrones(req: Request, res: Response){
         droneMed.medication_id = medicationIsFound;
     
         await createDroneMedication(droneMed);
+
+        setDroneState('LOADING', droneIsVaild.id);
+
         return res.status(200).json("Drone Loaded");
      
     } catch (error) {
@@ -97,8 +100,40 @@ async function loadDrones(req: Request, res: Response){
     
 }
 
+async function getAllAvailableDrones(req: Request, res: Response){
+    try {
+
+        const result = await getAvailableDrones(); 
+        return res.status(200).json(result);
+
+    } catch (error) {
+
+        return res.status(500).json(error.message);
+    }
+   
+}
+
+async function getDronMeds(req: Request, res: Response){
+    try {
+
+        const {serial_number} = req.params;
+
+        const  meds = await getDroneMedications(serial_number);
+
+        return res.status(200).json(meds);
+
+
+    } catch (error) {
+
+        return res.status(500).json(error.message);
+    }
+   
+}
+
 export{
     getDrones,
     createDrones,
-    loadDrones
+    loadDrones,
+    getAllAvailableDrones,
+    getDronMeds
 }
