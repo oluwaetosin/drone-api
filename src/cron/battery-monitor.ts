@@ -5,7 +5,7 @@ import DroneAudit from '../models/drone_audits.model';
 
 
  function starBatteryMonitoring(){
-    cron.schedule('* * * * *', async() => {
+    cron.schedule('0 * * * *', async() => {
         console.log('running a task every minute at the 5th second');
         try {
             const allDrones = await getAllDrones();
