@@ -68,12 +68,12 @@ dronesRouter.get('/drones/available',  getAllAvailableDrones);
  */
 dronesRouter.get('/drones/:serial_number/medications',  getDronMeds);
 /**
- * @api {get} /drones/:serial_number/medications Check Loaded Medication For a Given Drone
+ * @api {get} /drones/:serial_number/battery_level Check Drone Battery Level
  * @apiName Check Drone Battery Level
  * 
  * @apiParam {String} [serial_number] Drone Serial Number
  * 
- * @apiSuccess (200) {Array} Collection of `Medications` Object
+ * @apiSuccess (200) {Number} Drone Battery Level
  */
 dronesRouter.get('/drones/:serial_number/battery_level',  getDroanBatteryLevel);
 

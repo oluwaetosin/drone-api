@@ -64,6 +64,9 @@ async function loadDrones(req: Request, res: Response){
             return res.status(403).json("Drone with serial number not found");
         }
 
+        if(droneIsVaild.battery_capacity < 25){
+            return res.status(403).json("Drone battery level is below 25% and cannot be loaded at this time");
+        }
         const droneWeight = await droneLimitCheck(droneIsVaild);
 
        
