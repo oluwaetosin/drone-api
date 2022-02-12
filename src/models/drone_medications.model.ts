@@ -2,7 +2,7 @@ import { error } from "console";
 import db from "../database/connection";
 import { Drone } from "./drones.model";
 import { Medication } from "./medications.model";
-import { Trip } from "./trips.model";
+
 
 class DroneMedication {
     public id: number;

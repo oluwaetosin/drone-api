@@ -3,7 +3,7 @@ import expressjsonschema from 'express-jsonschema';
 import { DroneSchema, getAvailableDrones } from '../../models/drones.model';
 import { DroneMedicationSchema } from '../../models/drone_medications.model';
 
-import { createDrones, getAllAvailableDrones, getDroanBatteryLevel, getDrones, getDronMeds, loadDrones } from './drones.controllers';
+import { createDrones, getAllAvailableDrones, getAudit, getDroanBatteryLevel, getDrones, getDronMeds, loadDrones } from './drones.controllers';
 
 const vailidate = expressjsonschema.validate
 
@@ -76,6 +76,16 @@ dronesRouter.get('/drones/:serial_number/medications',  getDronMeds);
  * @apiSuccess (200) {Number} Drone Battery Level
  */
 dronesRouter.get('/drones/:serial_number/battery_level',  getDroanBatteryLevel);
+
+/**
+ * @api {get} /drones/:serial_number/battery_level Check Drone Battery Level
+ * @apiName Check Drone Battery Level
+ * 
+ * @apiParam {String} [serial_number] Drone Serial Number
+ * 
+ * @apiSuccess (200) {Number} Drone Battery Level
+ */
+ dronesRouter.get('/drones/audit',  getAudit);
 
 
 export default dronesRouter;

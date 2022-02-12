@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Drone, droneExist, getAll as getAllDrones, createDrone as addDrone, droneLimitCheck, getAvailableDrones, setDroneState, getDroneMedications } from "../../models/drones.model"
+import { getAudits } from '../../models/drone_audits.model';
 import { createDroneMedication, DroneMedication } from '../../models/drone_medications.model';
 import { createMedication, Medication, medicationExist } from '../../models/medications.model';
 import { getIdByName } from "../../models/models.model";
@@ -153,11 +154,28 @@ async function getDroanBatteryLevel(req: Request, res: Response){
    
 }
 
+async function getAudit(req: Request, res: Response){
+    try {
+
+       const audits =  await getAudits();
+
+       
+       return res.status(200).json(audits);
+
+
+    } catch (error) {
+
+        return res.status(500).json(error.message);
+    }
+   
+}
+
 export{
     getDrones,
     createDrones,
     loadDrones,
     getAllAvailableDrones,
     getDronMeds,
-    getDroanBatteryLevel
+    getDroanBatteryLevel,
+    getAudit
 }
