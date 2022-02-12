@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import expressjsonschema from 'express-jsonschema';
-import { DroneSchema, getAvailableDrones } from '../../models/drones.model';
+import { DroneSchema } from '../../models/drones.model';
 import { DroneMedicationSchema } from '../../models/drone_medications.model';
 
 import { createDrones, getAllAvailableDrones, getAudit, getDroanBatteryLevel, getDrones, getDronMeds, loadDrones } from './drones.controllers';
@@ -78,12 +78,10 @@ dronesRouter.get('/drones/:serial_number/medications',  getDronMeds);
 dronesRouter.get('/drones/:serial_number/battery_level',  getDroanBatteryLevel);
 
 /**
- * @api {get} /drones/:serial_number/battery_level Check Drone Battery Level
- * @apiName Check Drone Battery Level
+ * @api {get} /drones/audit Check Drone Audit Record
+ * @apiName Fetch Audit
  * 
- * @apiParam {String} [serial_number] Drone Serial Number
- * 
- * @apiSuccess (200) {Number} Drone Battery Level
+ * @apiSuccess (200) {Array}  Collection of Audits
  */
  dronesRouter.get('/drones/audit',  getAudit);
 

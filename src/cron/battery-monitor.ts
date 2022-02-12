@@ -1,6 +1,6 @@
 import * as cron from 'node-cron'
 
-import { Drone, droneExist, getAll as getAllDrones, createDrone as addDrone, droneLimitCheck, getAvailableDrones, setDroneState, getDroneMedications } from "../models/drones.model"
+import { getAll as getAllDrones } from "../models/drones.model"
 import DroneAudit from '../models/drone_audits.model';
 
 
