@@ -8,10 +8,10 @@ const port = process.env.PORT || 3000;
 
 const server: http.Server = http.createServer(app);
 
-server.listen(port, ()=>{
+server.listen(port, async ()=>{
     console.log("Server started on port " + port);
 
-    makeTables();
+    await makeTables();
 
     starBatteryMonitoring();
 

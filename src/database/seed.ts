@@ -33,7 +33,7 @@ const tables: string[] = [
         medication_id INTEGER NOT NULL,
         active INTEGER NOT NULL
     )`,
-    
+
     `CREATE TABLE IF NOT EXISTS drone_audits(
         id INTEGER PRIMARY KEY,
         drone_id INTEGER NOT NULL,
@@ -43,6 +43,15 @@ const tables: string[] = [
 
     
 ];
+
+export const tableNames: string[] = [
+    "drones",
+    "medications",
+    "models",
+    "states",
+    "drone_medications",
+    "drone_audits"
+]
 
 export const setup_data: string[] = [
     `INSERT INTO models(name) 

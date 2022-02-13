@@ -53,7 +53,7 @@ const DroneSchema = {
     type: 'object',
     properties: {
         
-        drone_serial_number: {
+        serial_number: {
             type: 'string',
             required: true,
             maxLength: 100
