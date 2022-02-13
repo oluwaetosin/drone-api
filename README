@@ -1,0 +1,22 @@
+# Project Title
+
+A Test Project With Musal Soft.
+
+### Installing
+
+* Clone the project from
+* in the project folder run npm Install
+
+## Build
+
+* To Build and compile to javascript Run command: npm run tsc 
+    This will generate a build folder in the /dist directory
+
+## Test 
+* To run the tests use  the command:
+    npm test
+
+## Run instruction
+
+* To run the project use the command:
+    npm run dev
