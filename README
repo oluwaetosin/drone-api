@@ -24,5 +24,13 @@ A Test Project With Musal Soft.
 * The Supported API are as follows:
     * @api {get} http://locahost:8000/drones Get All Drones
     * @api {post} http://locahost:8000/drones Register A drone
-        * REQUEST BODY Sample
+    * api {post} http://locahost:8000/drones/load Load  A Droan With Medication Item
+    * api {get} http://locahost:8000/drones/available Check Available Drones For Loading
+    * api {get} http://locahost:8000/drones/:serial_number/medications  Check Loaded Medication For a Given Drone
+    * api {get} http://locahost:8000/drones/:serial_number/battery_level Check Drone Battery Level
+    * api {get} http://locahost:8000/drones/audit Check Drone Audit Record
+
+* The request details is specified in src/routes/drones/drones.router.ts and 
+can also be viewed on https://documenter.getpostman.com/view/340283/UVeNmNLg
+
   
