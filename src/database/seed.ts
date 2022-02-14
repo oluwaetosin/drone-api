@@ -54,14 +54,14 @@ export const tableNames: string[] = [
 ]
 
 export const setup_data: string[] = [
-    `INSERT INTO models(name) 
+    `INSERT OR IGNORE INTO models(name) 
     VALUES
     ("Lightweight"),
     ("Middleweight"),
     ("Cruiserweight"),
     ("Heavyweight")
     `,
-    `INSERT INTO states(name) 
+    `INSERT OR IGNORE INTO states(name) 
     VALUES
     ("IDLE"),
     ("LOADING"),

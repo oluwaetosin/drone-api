@@ -73,6 +73,7 @@ async function loadDrones(req: Request, res: Response){
        
     
         const medication = new Medication(req.body);
+
         if( (droneWeight.totalLoad + medication.weight) > droneIsVaild.weight_limit){
 
             return res.status(403).json("Drone will exceed capacity");
@@ -88,6 +89,7 @@ async function loadDrones(req: Request, res: Response){
     
             return res.status(500).json("Medication could not been added");
         }
+        
         const droneMed = new DroneMedication();
         droneMed.drone_id = droneIsVaild.id;
         droneMed.medication_id = medicationIsFound;

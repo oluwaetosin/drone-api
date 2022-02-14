@@ -85,7 +85,8 @@ function createMedication(medication: Medication): Promise<number> {
     return new Promise((resolve, reject)=>{
 
         db.run(
-            `INSERT INTO medications (name,weight,code,identifier,image) VALUES('${medication.name}',${medication.weight},'${medication.code}','${medication.identifier}','${medication.image}')`, 
+            `INSERT INTO medications (name,weight,code,identifier,image) 
+            VALUES('${medication.name}',${medication.weight},'${medication.code}','${medication.identifier}','${medication.image}')`, 
             function(err){
             if(err){
                return reject(err);
@@ -104,10 +105,14 @@ function medicationExist(medication: Medication): Promise<number> {
         db.get("SELECT * FROM medications WHERE identifier = $identifier",{
             $identifier: medication.identifier
         }, function(err, row: Medication){
+            
             if(err){
+
                 return reject(err);
+
             }else{
-                if(!row || row.id === undefined){
+
+                if(!row){
                     return resolve(0);
                 }
                 return resolve(row.id);

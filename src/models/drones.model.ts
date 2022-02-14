@@ -119,16 +119,25 @@ function droneExist(serialNumber: string): Promise<Drone>{
 
 function droneLimitCheck(drone: Drone): Promise<{totalLoad: number}>{
     return new Promise((resolve, reject)=>{
-        db.get(`SELECT  SUM(medications.weight) as totalLoad FROM drone_medications inner join medications on 
+        db.get(`SELECT  SUM(medications.weight) as totalLoad 
+        FROM drone_medications inner join medications on 
         medications.id  = drone_medications.medication_id 
-         where drone_medications.drone_id = $droneID & drone_medications.active = 1`,{
+         where drone_medications.drone_id = $droneID & 
+         drone_medications.active = 1`,
+         {
             $droneID: drone.id
         }, (err, row: {totalLoad: number})=>{
+
             if(err){
+
                 reject(err);
+
             }else if(row){
+
                 resolve(row);
+
             }else{
+                
                 resolve(null);
             }
         })
